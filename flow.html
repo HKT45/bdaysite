@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Vasuki!</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
+    <style>
+        body, html {
+            margin: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .sky {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 70%;
+            background: linear-gradient(to bottom, #87CEEB, #B0E0E6);
+            z-index: 1;
+        }
+
+        .cloud {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            filter: blur(3px);
+            opacity: 0.7;
+        }
+
+        .cloud-1 { 
+            width: 200px; 
+            height: 60px; 
+            top: 10%; 
+            left: -100px; 
+            animation: float-left 15s linear infinite;
+        }
+
+        .cloud-2 { 
+            width: 250px; 
+            height: 80px; 
+            top: 25%; 
+            right: -150px; 
+            animation: float-right 20s linear infinite;
+        }
+
+        @keyframes float-left {
+            0% { left: -200px; }
+            100% { left: 100%; }
+        }
+
+        @keyframes float-right {
+            0% { right: -250px; }
+            100% { right: 100%; }
+        }
+
+        .landscape {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 30%;
+            background: linear-gradient(to bottom, #66BB6A, #2E7D32);
+            z-index: 2;
+        }
+
+        .grass-overlay {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 30%;
+            background-image: 
+                linear-gradient(45deg, transparent 75%, rgba(255,255,255,0.1) 75%),
+                linear-gradient(-45deg, transparent 75%, rgba(255,255,255,0.1) 75%);
+            background-size: 20px 20px;
+            z-index: 3;
+            opacity: 0.3;
+        }
+
+        .pathway {
+            position: absolute;
+            bottom: 15%;
+            width: 100%;
+            height: 10%;
+            background-color: #8B4513;
+            z-index: 4;
+        }
+
+        .stickman-container {
+            position: absolute;
+            width: 50px;
+            height: 100px;
+            bottom: calc(15% + 10px);
+            left: -50px;
+            z-index: 5;
+        }
+
+        .birthday-message {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: Arial, sans-serif;
+            font-size: 2em;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            z-index: 6;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+
+        @keyframes walk {
+            0% { 
+                left: -50px;
+                transform: scaleX(1);
+            }
+            50% {
+                left: 50%;
+                transform: translateX(-50%) scaleX(1);
+            }
+            100% { 
+                left: 110%; 
+                transform: scaleX(-1);
+            }
+        }
+
+        .stickman-svg {
+            width: 100%;
+            height: 100%;
+            animation: walk 8s linear forwards;
+        }
+
+        .stickman-svg path, .stickman-svg circle {
+            stroke: black;
+            stroke-width: 2;
+            fill: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="sky">
+        <div class="cloud cloud-1"></div>
+        <div class="cloud cloud-2"></div>
+    </div>
+    <div class="landscape"></div>
+    <div class="grass-overlay"></div>
+    <div class="pathway"></div>
+    <div class="birthday-message" id="birthdayMessage">Happy Birthday Vasuki!</div>
+    <div class="stickman-container">
+        <svg class="stickman-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <!-- Head -->
+            <circle cx="50" cy="15" r="10" fill="black" />
+            
+            <!-- Body -->
+            <path d="M50 25 V65" />
+            
+            <!-- Arms -->
+            <path d="M50 35 L40 45" /> <!-- Left arm -->
+            <path d="M50 35 L60 45" /> <!-- Right arm -->
+            
+            <!-- Legs -->
+            <path d="M50 65 L40 85" /> <!-- Left leg -->
+            <path d="M50 65 L60 85" /> <!-- Right leg -->
+        </svg>
+    </div>
+
+    <script>
+        // Show birthday message after stickman reaches center
+        setTimeout(() => {
+            document.getElementById('birthdayMessage').style.opacity = '1';
+        }, 3500);
+
+        // Hide birthday message before stickman walks off
+        setTimeout(() => {
+            document.getElementById('birthdayMessage').style.opacity = '0';
+        }, 6500);
+    </script>
+</body>
+</html>
