@@ -283,10 +283,50 @@
             typing 3.5s steps(40, end),
             blink-caret .75s step-end infinite;
     }
+    .polaroids .photopath {
+    width: 200px;
+    height: 250px;
+    background-color: white;
+    border-radius: 5px;
+    z-index: 10000; /* Ensure it's on top of all */
+    position: absolute; /* Ensure it follows proper positioning */
+    top: 10%;
+    left: 45%;
+    transform: translateX(-50%);
+}
+    .polaroids .prevbtn{
+    width: 55px;
+    height: 50px;
+    background-color: white;
+    border-radius: 25px;
+    z-index: 10000; /* Ensure it's on top of all */
+    position: absolute; /* Ensure it follows proper positioning */
+    top: 20%;
+    left: 5%;
+    }
+    .polaroids .nextbtn{
+    width: 55px;
+    height: 50px;
+    background-color: white;
+    border-radius: 25px;
+    z-index: 10000; /* Ensure it's on top of all */
+    position: absolute; /* Ensure it follows proper positioning */
+    top: 20%;
+    right: 15%;
+    }
 
     </style>
         </head>
         <body>
+    <div class="polaroids" id="polaroids">
+        <div class="prevbtn"><h2 style="position: absolute; top: -29%; left: 15%;">👈🏻</h2></div>
+        <div class="nextbtn"><h2 style="position: absolute; top: -29%; left: 15%;">👉🏻</h2></div>
+    <div class="photopath" id="photopath">
+        <p style="position: absolute; top: -10%; left: -6%;font-size: large;">🎀</p>
+        <h3 style="font-family: cursive; font-size: medium;">Happy Birthday Vasuki💖</h3>
+        <img src="qr_code.jpg" height="150px" width="150px" style="position: absolute; top: 25%; right: 50%; left: 15%; bottom: 50%;">
+    </div>
+    </div>
     <div class="sky">
         <div class="cloud cloud-1"></div>
         <div class="cloud cloud-2"></div>
@@ -294,7 +334,7 @@
     <div class="landscape"></div>
     <div class="grass-overlay"></div>
     <div class="pathway"></div>
-    <div class="birthday-message" id="birthdayMessage" style="font-family: cursive; display: none;">Happy Birthday Vasuki!</div>
+    <div class="birthday-message" id="birthdayMessage" style="font-family: cursive; display: none;"></div>
     <div class="wrapper" id="wrapper">
         <h4 style="background-color: white; border-radius: 5px;" id="msg"></h4>
         <div class="head">
