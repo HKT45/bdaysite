@@ -314,17 +314,29 @@
     top: 20%;
     right: 15%;
     }
+    .polaroids .desc{
+        position: absolute;
+        bottom: -120%;
+        white-space: prewrap;
+        background-color: white;
+    }
+    .polaroids{
+        position: relative;
+        top: 20%;
+        visibility:hidden;
+    }
 
     </style>
         </head>
         <body>
     <div class="polaroids" id="polaroids">
-        <div class="prevbtn"><h2 style="position: absolute; top: -29%; left: 15%;">👈🏻</h2></div>
-        <div class="nextbtn"><h2 style="position: absolute; top: -29%; left: 15%;">👉🏻</h2></div>
+        <div class="prevbtn" onclick="prevImage()"><h2 style="position: absolute; top: -29%; left: 15%;">👈🏻</h2></div>
+        <div class="nextbtn" onclick="nextImage()"><h2 style="position: absolute; top: -29%; left: 15%;">👉🏻</h2></div>
     <div class="photopath" id="photopath">
         <p style="position: absolute; top: -10%; left: -6%;font-size: large;">🎀</p>
         <h3 style="font-family: cursive; font-size: medium;">Happy Birthday Vasuki💖</h3>
-        <img src="qr_code.jpg" height="150px" width="150px" style="position: absolute; top: 25%; right: 50%; left: 15%; bottom: 50%;">
+        <img id="sourceimage" src="qr_code.jpg" height="150px" width="150px" style="position: absolute; top: 25%; right: 50%; left: 15%; bottom: 50%;">
+        <h3 class="desc" id="desc">Use prev/next button to change images</h3>
     </div>
     </div>
     <div class="sky">
@@ -352,6 +364,33 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 <script>
+    const descontent =[
+        "This is our pic",
+        "This is you",
+        "Happy Christmess"
+    ]
+    const images = [
+            "ss.png", // Replace with your actual image paths
+            "logo.jpg",
+            "india-Map-PNG-Background-Image.png",
+        ];
+        let currentphoto = 0;
+        function updateImage() {
+            const mainImage = document.getElementById("sourceimage");
+            const desc = document.getElementById("desc");
+            mainImage.src = images[currentphoto];
+            desc.textContent=descontent[currentphoto];
+        }
+
+        function prevImage() {
+            currentphoto = (currentphoto - 1 + images.length) % images.length; // Loop back to the last image
+            updateImage();
+        }
+
+        function nextImage() {
+            currentphoto = (currentphoto + 1) % images.length; // Loop back to the first image
+            updateImage();
+        }
     document.addEventListener('DOMContentLoaded', function () {
         // Confetti settings
         var count = 200;
@@ -396,7 +435,8 @@
         const stickman = document.getElementById("wrapper");
         const textElement = document.getElementById("msg");
         const birthdayMessage = document.getElementById("birthdayMessage");
-
+        const polaroids=document.getElementById("polaroids");
+        
         setTimeout(() => {
             stickman.style.animationPlayState = "paused"; // Pause the animation
         }, 3105);
@@ -408,6 +448,7 @@
                 stickman.style.display = "none";
                 launchConfetti(); // Fire confetti on click
                 launchConfetti();
+                polaroids.style.visibility = "visible";
             }, 4000);
         });
 
