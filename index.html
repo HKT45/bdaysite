@@ -55,6 +55,22 @@
             100% { right: 100%; }
         }
 
+
+        @keyframes walk{
+            0%{
+                transform: translateX(190%);
+            }
+            50% {
+        transform: translateX(0); /* Pause at this position */
+    }
+    60% {
+        transform: translateX(0); /* Maintain position for 3 seconds */
+    }
+            100%{
+                transform: translateX(-340%);
+            }
+        }
+
         .landscape {
             position: absolute;
             bottom: 0;
@@ -120,7 +136,7 @@
             bottom: 15%; /* Adjusted for pathway */
             left: 50%;
             z-index: 5;
-            transform: translateX(-50%);
+            animation: walk 7s infinite;            
         }
 
         .head {
@@ -136,7 +152,7 @@
             animation: rock 1s alternate infinite ease-in-out;
             transform-origin: center bottom;
         }
-
+        
         @keyframes rock {
             0% {
                 transform: rotate(-10deg);
@@ -166,6 +182,8 @@
             left: 155px;
             transform: rotate(12deg);
             transform-origin: top;
+            animation: walk-left-leg 2s infinite
+
         }
 
         .rightleg {
@@ -178,6 +196,7 @@
             left: 157px;
             transform: rotate(-12deg);
             transform-origin: top;
+            animation: walk-right-leg 2s infinite
         }
 
         .leftarm {
@@ -212,7 +231,30 @@
             animation: wave2 1s alternate infinite ease-in-out;
             transform-origin: 0%;
         }
+        @keyframes walk-right-leg{
+	0%{
+		transform: rotate(30deg);
+		right: 30px}
+	50%{
+		transform: rotate(-30deg);
+		right: -30px}
+	100%{
+		transform: rotate(30deg);
+		right: 30px}
+        }
 
+        @keyframes walk-left-leg{
+	0%{
+		transform: rotate(-30deg);
+		right: -30px}
+	50%{
+		transform: rotate(30deg);
+		right: 30px}
+	100%{
+		transform: rotate(-30deg);
+		right: -30px}
+        }
+    
         @keyframes wave2 {
             0% {
                 transform: rotate(20deg);
@@ -222,27 +264,6 @@
             }
         }
 
-        .leftfoot {
-            width: 30px;
-            height: 6px;
-            border: 3px solid black;
-            display: block;
-            position: absolute;
-            top: 270px;
-            left: 110px;
-            transform: rotate(8deg);
-        }
-
-        .rightfoot {
-            width: 30px;
-            height: 6px;
-            border: 3px solid black;
-            display: block;
-            position: absolute;
-            top: 270px;
-            left: 178px;
-            transform: rotate(-8deg);
-        }
     </style>
 </head>
 <body>
@@ -257,12 +278,17 @@
     <div class="wrapper">
         <div class="head"></div>
         <div class="torso"></div>
-        <div class="leftarm"></div>
+        <div class="leftarm">
+            <div style="display: none;"><h1 style="font-size: smaller;">Click On me!</h1></div>
+        </div>
         <div class="rightarm"></div>
-        <div class="leftleg"></div>
-        <div class="leftfoot"></div>
-        <div class="rightleg"></div>
-        <div class="rightfoot"></div>
+        <div class="leftleg">
+            <div class="leftfoot"></div>
+        </div>
+        <div class="rightleg">
+            <div class="rightfoot"></div>
+        </div>
+        
     </div>
     <script>
         // Show birthday message after stickman is centered
