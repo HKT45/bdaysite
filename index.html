@@ -56,20 +56,22 @@
         }
 
 
-        @keyframes walk{
-            0%{
-                transform: translateX(190%);
+        @keyframes walk {
+            0% {
+                transform: translateX(105px);
             }
-            50% {
-        transform: translateX(0); /* Pause at this position */
-    }
-    60% {
-        transform: translateX(0); /* Maintain position for 3 seconds */
-    }
-            100%{
-                transform: translateX(-340%);
+            
+            100% {
+                transform: translateX(-470px);
             }
         }
+
+
+.moving-object {
+    animation: walk 10s linear infinite; /* Total animation time is 10s */
+    animation-timing-function: linear; /* Smooth and continuous movement */
+}
+
 
         .landscape {
             position: absolute;
@@ -136,7 +138,7 @@
             bottom: 15%; /* Adjusted for pathway */
             left: 50%;
             z-index: 5;
-            animation: walk 7s infinite;            
+            animation: walk 7s linear forwards;
         }
 
         .head {
@@ -263,10 +265,28 @@
                 transform: rotate(-40deg);
             }
         }
+        @keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: orange; }
+}
+        @keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+    .wrapper h4{
+        overflow: hidden; /* Ensures the content is not revealed until the animation */
+        border-right: .15em solid orange; /* The typwriter cursor */
+        white-space: nowrap; /* Keeps the content on a single line */
+        margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+        letter-spacing: .15em; /* Adjust as needed */
+        animation: 
+            typing 3.5s steps(40, end),
+            blink-caret .75s step-end infinite;
+    }
 
     </style>
-</head>
-<body>
+        </head>
+        <body>
     <div class="sky">
         <div class="cloud cloud-1"></div>
         <div class="cloud cloud-2"></div>
@@ -274,13 +294,13 @@
     <div class="landscape"></div>
     <div class="grass-overlay"></div>
     <div class="pathway"></div>
-    <div class="birthday-message" id="birthdayMessage" style="font-family: cursive;">Happy Birthday Vasuki!</div>
-    <div class="wrapper">
-        <div class="head"></div>
-        <div class="torso"></div>
-        <div class="leftarm">
-            <div style="display: none;"><h1 style="font-size: smaller;">Click On me!</h1></div>
+    <div class="birthday-message" id="birthdayMessage" style="font-family: cursive; display: none;">Happy Birthday Vasuki!</div>
+    <div class="wrapper" id="wrapper">
+        <h4 style="background-color: white; border-radius: 5px;" id="msg"></h4>
+        <div class="head">
         </div>
+        <div class="torso"></div>
+        <div class="leftarm"></div>
         <div class="rightarm"></div>
         <div class="leftleg">
             <div class="leftfoot"></div>
@@ -290,11 +310,91 @@
         </div>
         
     </div>
-    <script>
-        // Show birthday message after stickman is centered
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Confetti settings
+        var count = 200;
+        var defaults = {
+            origin: { y: 0.7 }
+        };
+
+        function fire(particleRatio, opts) {
+            confetti({
+                ...defaults,
+                ...opts,
+                particleCount: Math.floor(count * particleRatio)
+            });
+        }
+
+        function launchConfetti() {
+            fire(0.25, {
+                spread: 26,
+                startVelocity: 55,
+            });
+            fire(0.2, {
+                spread: 60,
+            });
+            fire(0.35, {
+                spread: 100,
+                decay: 0.91,
+                scalar: 0.8
+            });
+            fire(0.1, {
+                spread: 120,
+                startVelocity: 25,
+                decay: 0.92,
+                scalar: 1.2
+            });
+            fire(0.1, {
+                spread: 120,
+                startVelocity: 45,
+            });
+        }
+
+        // Stickman and birthday message animations
+        const stickman = document.getElementById("wrapper");
+        const textElement = document.getElementById("msg");
+        const birthdayMessage = document.getElementById("birthdayMessage");
+
         setTimeout(() => {
-            document.getElementById('birthdayMessage').style.opacity = '1';
+            stickman.style.animationPlayState = "paused"; // Pause the animation
+        }, 3105);
+
+        stickman.addEventListener("click", () => {
+            stickman.style.animationPlayState = "running"; // Resume animation
+            
+            setTimeout(() => {
+                stickman.style.display = "none";
+                launchConfetti(); // Fire confetti on click
+                launchConfetti();
+            }, 4000);
+        });
+
+        setTimeout(() => {
+            birthdayMessage.style.opacity = '1';
         }, 500);
-    </script>
+
+        // Typing text animation
+        const texts = ["Hi This is Hari 👀", "I am just here to say you 💜", "Click on MY HAND"];
+        let currentIndex = 0;
+
+        const animateText = () => {
+            textElement.textContent = texts[currentIndex];
+            textElement.style.animation = "none"; // Reset the animation
+            void textElement.offsetWidth; // Trigger reflow to restart the animation
+            textElement.style.animation = `
+                typing 3.5s steps(40, end),
+                blink-caret .75s step-end infinite
+            `;
+
+            currentIndex = (currentIndex + 1) % texts.length;
+            setTimeout(animateText, 3500); // Match typing animation duration
+        };
+
+        animateText();
+    });
+</script>
+
 </body>
 </html>
