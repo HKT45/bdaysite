@@ -316,9 +316,9 @@
                 background-color: white;
                 border-radius: 25px;
                 z-index: 10000;
-                position: absolute;
-                top: 20%;
+                margin-top: 120%;
                 left: 5%;
+                position: absolute;
             }
             .polaroids .nextbtn {
                 width: 55px;
@@ -326,20 +326,23 @@
                 background-color: white;
                 border-radius: 25px;
                 z-index: 10000;
+                right: 5%;
+                margin-top: 120%;
                 position: absolute;
-                top: 20%;
-                right: 15%;
             }
             .polaroids .desc {
                 position: absolute;
                 bottom: -120%;
+                width: 250px;
                 white-space: prewrap;
                 background-color: white;
             }
             .polaroids {
-                position: relative;
+                left: 0;
+                right: 0;
+                position: absolute;
                 top: 20%;
-                visibility: hidden;
+                visibility: visible;
             }
         </style>
     </head>
@@ -351,7 +354,7 @@
                 <p style="position: absolute; top: -10%; left: -6%; font-size: large;">🎀</p>
                 <h3 style="font-family: cursive; font-size: medium;">Happy Birthday Vasuki💖</h3>
                 <img id="sourceimage" src="pic01.jpg" height="150px" width="150px" style="position: absolute; top: 25%; right: 50%; left: 15%; bottom: 50%;" />
-                <h3 class="desc" id="desc">Use prev/next button to change images</h3>
+                <h3 class="desc" id="desc"></h3>
             </div>
         </div>
         <div class="sky">
@@ -368,11 +371,13 @@
             <div class="torso"></div>
             <div class="leftarm"></div>
             <div class="rightarm"></div>
-            <div class="leftleg">
+            <div id="legs">
+            <div class="leftleg" id="leftleg">
                 <div class="leftfoot"></div>
             </div>
-            <div class="rightleg">
+            <div class="rightleg" id="rightleg">
                 <div class="rightfoot"></div>
+            </div>
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
@@ -439,14 +444,19 @@
                 const textElement = document.getElementById("msg");
                 const birthdayMessage = document.getElementById("birthdayMessage");
                 const polaroids = document.getElementById("polaroids");
-
+                const leftleg = document.getElementById("leftleg");
+                const rightleg = document.getElementById("rightleg");
                 setTimeout(() => {
                     stickman.style.animationPlayState = "paused";
+                    leftleg.style.animationPlayState="paused";
+                    rightleg.style.animationPlayState="paused";
+                    
                 }, 3105);
 
                 stickman.addEventListener("click", () => {
                     stickman.style.animationPlayState = "running";
-
+                    leftleg.style.animationPlayState="running";
+                    rightleg.style.animationPlayState="running";
                     setTimeout(() => {
                         stickman.style.display = "none";
                         launchConfetti();
