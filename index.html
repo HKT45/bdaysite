@@ -293,16 +293,15 @@
             }
             .wrapper h4 {
                 overflow: hidden;
-                border-right: 0.15em solid orange;
-                white-space: nowrap;
+                white-space: prewrap;
                 margin: 0 auto;
                 letter-spacing: 0.15em;
-                animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+                visibility: hidden;
             }
             .polaroids .photopath {
-                width: 200px;
-                height: 250px;
-                background-color: white;
+                width: 300px;
+                height: 350px;
+                background-color: rgba(255, 255, 255, 0);
                 border-radius: 5px;
                 z-index: 10000;
                 position: absolute;
@@ -342,7 +341,21 @@
                 right: 0;
                 position: absolute;
                 top: 20%;
-                visibility: visible;
+                visibility: hidden;
+            }
+            .pathway .desc{
+                background-color: white;
+                border-radius: 5px;
+                width: 250px;
+                position: absolute;
+                left: 20%;
+                top: -11%;
+                text-align: center;
+                font-size: large;
+                font-family: cursive;
+            }
+            .video{
+                display: none;
             }
         </style>
     </head>
@@ -352,10 +365,13 @@
             <div class="nextbtn" onclick="nextImage()"><h2 style="position: absolute; top: -29%; left: 15%;">👉🏻</h2></div>
             <div class="photopath" id="photopath">
                 <p style="position: absolute; top: -10%; left: -6%; font-size: large;">🎀</p>
-                <h3 style="font-family: cursive; font-size: medium;">Happy Birthday Vasuki💖</h3>
-                <img id="sourceimage" src="pic01.jpg" height="150px" width="150px" style="position: absolute; top: 25%; right: 50%; left: 15%; bottom: 50%;" />
-                <h3 class="desc" id="desc"></h3>
-            </div>
+                <h3 style="font-family: cursive; font-size: medium;"></h3>
+                <img id="sourceimage" src="wish.png" height="450px" width="300px" style="position: absolute; top: 5%; right: 50%; left: 1%; bottom: 50%;" />
+                <video id="video" class="video" height="450px" width="300px" controls
+                style="position: absolute; top: 5%; right: 50%; left: 1%; bottom: 50%;">
+           <source src="video.mp4" type="video/mp4">
+           Your browser does not support the video tag.
+         </video>            </div>
         </div>
         <div class="sky">
             <div class="cloud cloud-1"></div>
@@ -363,10 +379,12 @@
         </div>
         <div class="landscape"></div>
         <div class="grass-overlay"></div>
-        <div class="pathway"></div>
-        <div class="birthday-message" id="birthdayMessage" style="font-family: cursive; display: none;"></div>
+        <div class="pathway">
+            <p class="desc" id="desc"></p>
+        </div>
+        <div class="birthday-message" style="font-family: cursive;"></div>
         <div class="wrapper" id="wrapper">
-            <h4 style="background-color: white; border-radius: 5px;" id="msg"></h4>
+            <h4 style="background-color: white; border-radius: 5px;" id="msg">next poga oru click mattum pothum 💖</h4>
             <div class="head"></div>
             <div class="torso"></div>
             <div class="leftarm"></div>
@@ -382,15 +400,42 @@
         </div>
         <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
         <script>
-            const descontent = ["This is our pic", "This is you", "Happy Christmess"];
-            const images = ["ss.png", "logo.jpg", "india-Map-PNG-Background-Image.png"];
+            const descontent = ["", "No matter the distance, you're always on my mind and in my heart.", "Even though we're miles apart, you're always close to my heart.","Distance means so little when friendship means so much.","Though we're far apart, our memories and laughter remain close to my heart.","You're the sunshine that brightens up my day, no matter where we are in the world.","No distance can ever diminish the love and friendship we share.","Though we may be far, our bond remains unbroken.","Distance Means Nothing When we roast each other.","Go"];
+            const videoElement = document.getElementById("video");
+            const images = ["wish.png", "pic1.jpg", "pic2.jpg","pic3.jpg","pic4.jpg","pic5.jpg","pic6.jpg","pic7.jpg","pic8.jpg","banner.png","last.png"];
             let currentphoto = 0;
             function updateImage() {
-                const mainImage = document.getElementById("sourceimage");
-                const desc = document.getElementById("desc");
-                mainImage.src = images[currentphoto];
-                desc.textContent = descontent[currentphoto];
-            }
+    const imageElement = document.getElementById("sourceimage");
+    const desc = document.getElementById("desc");
+    const videoElement = document.getElementById("video");
+    
+    if (desc.textContent === "Go") {
+        // Switch to video
+        imageElement.style.visibility = 'hidden'; // Hide the image
+        videoElement.style.display = 'block'; // Show the video
+        videoElement.play().catch((error) => {
+            console.error("Error playing video:", error);
+        });
+        desc.textContent = "One More"; // Update description text
+    } else if (desc.textContent === "One More") {
+        // Switch back to the last image
+        videoElement.pause(); // Pause the video
+        videoElement.currentTime = 0; // Reset video to start
+        videoElement.style.display = 'none'; // Hide the video
+        imageElement.style.visibility = 'visible'; // Show the image
+        imageElement.src = images[images.length - 1]; // Display the last image
+        desc.textContent = "Creator is waiting for ur CALL!!! 💗"; // Update description text
+    }
+    
+     else {
+        // Show the next image
+        imageElement.src = images[currentphoto];
+        desc.textContent = descontent[currentphoto];
+        videoElement.style.display = 'none'; // Hide the video
+        imageElement.style.visibility = 'visible'; // Show the image
+    }
+}
+
 
             function prevImage() {
                 currentphoto = (currentphoto - 1 + images.length) % images.length;
@@ -398,8 +443,13 @@
             }
 
             function nextImage() {
+                if(desc.textContent==="Creator is waiting for ur CALL!!! 💗"){
+                    return;
+                }
+                else{
                 currentphoto = (currentphoto + 1) % images.length;
                 updateImage();
+                }
             }
             document.addEventListener("DOMContentLoaded", function () {
                 var count = 200;
@@ -446,10 +496,13 @@
                 const polaroids = document.getElementById("polaroids");
                 const leftleg = document.getElementById("leftleg");
                 const rightleg = document.getElementById("rightleg");
+                const info = document.getElementById("msg");
                 setTimeout(() => {
                     stickman.style.animationPlayState = "paused";
                     leftleg.style.animationPlayState="paused";
                     rightleg.style.animationPlayState="paused";
+                    info.style.visibility="visible";
+                    birthdayMessage.style.visibility="visible";
                     
                 }, 3105);
 
@@ -464,28 +517,9 @@
                         polaroids.style.visibility = "visible";
                     }, 4000);
                 });
-
                 setTimeout(() => {
                     birthdayMessage.style.opacity = "1";
                 }, 500);
-
-                const texts = ["Hi This is Hari 👀", "I am just here to say you 💜", "Click on MY HAND"];
-                let currentIndex = 0;
-
-                const animateText = () => {
-                    textElement.textContent = texts[currentIndex];
-                    textElement.style.animation = "none";
-                    void textElement.offsetWidth;
-                    textElement.style.animation = `
-                typing 3.5s steps(40, end),
-                blink-caret .75s step-end infinite
-            `;
-
-                    currentIndex = (currentIndex + 1) % texts.length;
-                    setTimeout(animateText, 3500);
-                };
-
-                animateText();
             });
         </script>
     </body>
